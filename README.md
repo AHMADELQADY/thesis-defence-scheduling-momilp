@@ -1,4 +1,4 @@
-# 📘 Thesis Defence Scheduling – MOMILP Implementation (Paper-Exact)
+# 📘 Thesis Defence Scheduling – MOMILP Implementation 
 
 This repository contains  **paper implementation** of the two-stage multi-objective MILP model for thesis defence scheduling, including:
 
