@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Gurobi
+gurobi.log
+
+
+
+# Mac
+.DS_Store
+
+# Virtual environment
+venv/
+.env/
+
+# IDE
+.idea/
+.vscode/
