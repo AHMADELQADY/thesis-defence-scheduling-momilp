@@ -11,6 +11,7 @@ from gurobipy import GRB
 from src.common.solve_tracker import SolveTracker
 from src.model.build import build_stage2_base
 from src.model.zexpr import build_z_defs
+from src.experiments.schedule_export import extract_schedule_rows
 
 
 # =============================================================================
@@ -24,7 +25,7 @@ class SolutionPoint:
     z_bounded: List[float]         # achieved bounded objectives (same order as eps)
     status: int                    # GRB status code
     proven: bool                   # True if OPTIMAL; False if TIME_LIMIT incumbent accepted
-
+    schedule: list[dict] | None = None   # NEW: extracted schedule rows
 
 @dataclass(frozen=True)
 class AugEpsMetrics:
@@ -305,6 +306,7 @@ def solve_augmented_epsilon(
             elif st == GRB.OPTIMAL:
                 z_vec = [float(z_defs[i_obj].expr.getValue()) for i_obj in range(1, n_z + 1)]
                 z_bounded = [z_vec[obj_id - 1] for obj_id in bounded_objectives]
+                schedule_rows = extract_schedule_rows(idx, bm.var)
 
                 add_to_N_keep_nondominated(
                     N,
@@ -314,6 +316,7 @@ def solve_augmented_epsilon(
                         z_bounded=z_bounded,
                         status=st,
                         proven=True,
+                        schedule=schedule_rows,
                     ),
                 )
                 timeN += dt
@@ -323,6 +326,7 @@ def solve_augmented_epsilon(
                 if accept_time_limit_incumbent and bm.m.SolCount > 0:
                     z_vec = [float(z_defs[i_obj].expr.getValue()) for i_obj in range(1, n_z + 1)]
                     z_bounded = [z_vec[obj_id - 1] for obj_id in bounded_objectives]
+                    schedule_rows = extract_schedule_rows(idx, bm.var)
 
                     add_to_N_keep_nondominated(
                         N,
@@ -332,6 +336,7 @@ def solve_augmented_epsilon(
                             z_bounded=z_bounded,
                             status=st,
                             proven=False,
+                            schedule=schedule_rows,
                         ),
                     )
                     timeN += dt

@@ -13,6 +13,7 @@ from src.instance_generator.generator import generate_instance
 from src.instance_generator.io import save_instance
 from src.run.main import run_two_stage
 
+from src.experiments.schedule_export import pretty_print_defence_blocks
 
 def main():
     ap = argparse.ArgumentParser()
@@ -87,9 +88,18 @@ def main():
     print("\n=== NADIR VECTOR (approx) ===")
     print(in_res.z_nadir)
 
+    # print("\n=== NON-DOMINATED SOLUTIONS (N) ===")
+    # for k, sol in enumerate(N, 1):
+    #     print(f"Solution {k}: z={sol.z} eps={sol.eps}")
+
     print("\n=== NON-DOMINATED SOLUTIONS (N) ===")
     for k, sol in enumerate(N, 1):
-        print(f"Solution {k}: z={sol.z} eps={sol.eps}")
+        print(f"\n--- Solution {k} ---")
+        print(f"z={sol.z}")
+        print(f"eps={sol.eps}")
+        print(f"proven={sol.proven} status={sol.status}")
+        print("Schedule:")
+        pretty_print_defence_blocks(sol.schedule or [])
 
     # -------------------------
     # CSV export (like scalability)
