@@ -1,5 +1,7 @@
 # 📘 Thesis Defence Scheduling – MOMILP Implementation 
 
+Link to paper : https://doi.org/10.1016/j.ejor.2023.06.031
+
 This repository contains  **paper implementation** of the two-stage multi-objective MILP model for thesis defence scheduling, including:
 
 - **Stage 1**: Maximization of scheduled defences (`g*`)
